@@ -36,7 +36,7 @@ public final
 class Void {
 	
     /**
-     * {@code Class}对象表示对应关键字{@code void}的伪类型。
+     * {@code Class}对象表示对应关键字{@code void}的伪类型
      */
     @SuppressWarnings("unchecked")
     public static final Class<Void> TYPE = (Class<Void>) Class.getPrimitiveClass("void");
