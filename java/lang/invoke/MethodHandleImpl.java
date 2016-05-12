@@ -1633,11 +1633,11 @@ import static java.lang.invoke.MethodHandles.Lookup.IMPL_LOOKUP;
             MethodHandle producer = buildArrayProducer(arrayType);
             mh = buildVarargsArray(builder, producer, nargs);
         } else {
-            Class<? extends Object[]> objArrayType = arrayType.asSubclass(Object[].class);
-            Object[] example = Arrays.copyOf(NO_ARGS_ARRAY, 0, objArrayType);
-            MethodHandle builder = Lazy.MH_fillNewTypedArray.bindTo(example);
-            MethodHandle producer = Lazy.MH_arrayIdentity; // must be weakly typed
-            mh = buildVarargsArray(builder, producer, nargs);
+//            Class<? extends Object[]> objArrayType = arrayType.asSubclass(Object[].class);
+//            Object[] example = Arrays.copyOf(NO_ARGS_ARRAY, 0, objArrayType);
+//            MethodHandle builder = Lazy.MH_fillNewTypedArray.bindTo(example);
+//            MethodHandle producer = Lazy.MH_arrayIdentity; // must be weakly typed
+//            mh = buildVarargsArray(builder, producer, nargs);
         }
         mh = mh.asType(MethodType.methodType(arrayType, Collections.<Class<?>>nCopies(nargs, elemType)));
         mh = makeIntrinsic(mh, Intrinsic.NEW_ARRAY);
