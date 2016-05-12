@@ -26,9 +26,9 @@
 package java.lang;
 
 /**
- * Class {@code Object} is the root of the class hierarchy.
- * Every class has {@code Object} as a superclass. All objects,
- * including arrays, implement the methods of this class.
+ * 类 {@code Object}是所有类体系结构中的根。
+ * 每个类 都将 {@code Object}作为基类。 所有的对象,
+ * 包括数组们，实现了该类的所有方法。
  *
  * @author  unascribed
  * @see     java.lang.Class
@@ -42,32 +42,31 @@ public class Object {
     }
 
     /**
-     * Returns the runtime class of this {@code Object}. The returned
-     * {@code Class} object is the object that is locked by {@code
-     * static synchronized} methods of the represented class.
+     * 返回 此{@code Object}的运行时类. 返回的
+     * {@code Class} 对象是由所表示类的{@code
+     * static synchronized}方法加锁的对象。
      *
-     * <p><b>The actual result type is {@code Class<? extends |X|>}
-     * where {@code |X|} is the erasure of the static type of the
-     * expression on which {@code getClass} is called.</b> For
-     * example, no cast is required in this code fragment:</p>
+     * <p><b>实际结果类型是 {@code Class<? extends |X|>}
+     * 其中{@code |X|} is the erasure of the static type of the
+     * expression on which {@code getClass} is called.</b> 
+     * 例如, 在以下代码段中不需要强制转换：</p>
      *
      * <p>
      * {@code Number n = 0;                             }<br>
      * {@code Class<? extends Number> c = n.getClass(); }
      * </p>
      *
-     * @return The {@code Class} object that represents the runtime
-     *         class of this object.
+     * @return 该{@code Class}对象代表了调用（该方法）对象
+     *         的运行时类.
      * @jls 15.8.2 Class Literals
      */
     public final native Class<?> getClass();
 
     /**
-     * Returns a hash code value for the object. This method is
-     * supported for the benefit of hash tables such as those provided by
-     * {@link java.util.HashMap}.
+     * 返回对象的hash值. 该方法被提供
+     * 用以提升哈希表的性能,例如{@link java.util.HashMap}提供的哈希表。 
      * <p>
-     * The general contract of {@code hashCode} is:
+     * {@code hashCode}的一般规则是：
      * <ul>
      * <li>Whenever it is invoked on the same object more than once during
      *     an execution of a Java application, the {@code hashCode} method
@@ -93,55 +92,53 @@ public class Object {
      * technique is not required by the
      * Java&trade; programming language.)
      *
-     * @return  a hash code value for this object.
+     * @return  此对象的一个哈希值
      * @see     java.lang.Object#equals(java.lang.Object)
      * @see     java.lang.System#identityHashCode
      */
     public native int hashCode();
 
     /**
-     * Indicates whether some other object is "equal to" this one.
+     * 指示其他对象是否 "等于"该对象.
      * <p>
-     * The {@code equals} method implements an equivalence relation
-     * on non-null object references:
+     * {@code equals} 方法 实现了非null对象引用之间的等价关系
+     * ：
      * <ul>
-     * <li>It is <i>reflexive</i>: for any non-null reference value
-     *     {@code x}, {@code x.equals(x)} should return
+     * <li>它具有 <i>自反性</i>: 对于任何非null引用值
+     *     {@code x}来说, {@code x.equals(x)} 应返回
      *     {@code true}.
-     * <li>It is <i>symmetric</i>: for any non-null reference values
-     *     {@code x} and {@code y}, {@code x.equals(y)}
-     *     should return {@code true} if and only if
-     *     {@code y.equals(x)} returns {@code true}.
-     * <li>It is <i>transitive</i>: for any non-null reference values
-     *     {@code x}, {@code y}, and {@code z}, if
-     *     {@code x.equals(y)} returns {@code true} and
-     *     {@code y.equals(z)} returns {@code true}, then
-     *     {@code x.equals(z)} should return {@code true}.
-     * <li>It is <i>consistent</i>: for any non-null reference values
-     *     {@code x} and {@code y}, multiple invocations of
-     *     {@code x.equals(y)} consistently return {@code true}
-     *     or consistently return {@code false}, provided no
-     *     information used in {@code equals} comparisons on the
-     *     objects is modified.
-     * <li>For any non-null reference value {@code x},
-     *     {@code x.equals(null)} should return {@code false}.
+     * <li>它具有<i>对称性</i>: 对于任何非null引用值
+     *     {@code x} 和 {@code y}来说, {@code x.equals(y)}
+     *     应返回 {@code true}当且仅当
+     *     {@code y.equals(x)}返回 {@code true}.
+     * <li>它具有<i>传递性</i>： 对于任何非null引用值
+     *     {@code x}, {@code y}, 和 {@code z}, 若
+     *     {@code x.equals(y)} 返回 {@code true}且
+     *     {@code y.equals(z)} 返回 {@code true}, 那么
+     *     {@code x.equals(z)} 应返回 {@code true}.
+     * <li>它具有 <i>一致性</i>: 对于任何非null引用值
+     *     {@code x} 和 {@code y}, 多次的
+     *     {@code x.equals(y)}方法调用始终返回 {@code true}
+     *     或始终返回 {@code false}, 前提是
+     *     对象上 {@code equals} 比较重所用的
+     *     信息没有被修改.
+     * <li>对于任何非null引用值 {@code x},
+     *     {@code x.equals(null)} 应返回 {@code false}.
      * </ul>
      * <p>
-     * The {@code equals} method for class {@code Object} implements
-     * the most discriminating possible equivalence relation on objects;
-     * that is, for any non-null reference values {@code x} and
-     * {@code y}, this method returns {@code true} if and only
-     * if {@code x} and {@code y} refer to the same object
-     * ({@code x == y} has the value {@code true}).
+     * 类 {@code Object}的{@code equals} 方法 实现了
+     * 对象间最大差别的等价关系判断;
+     * 也就是, 对于任何非null的引用值{@code x} 和
+     * {@code y}, 当且仅当{@code x}和{@code y}引用同一个对象时，
+     * 表达式({@code x == y}返回  {@code true}).
      * <p>
-     * Note that it is generally necessary to override the {@code hashCode}
-     * method whenever this method is overridden, so as to maintain the
-     * general contract for the {@code hashCode} method, which states
-     * that equal objects must have equal hash codes.
-     *
-     * @param   obj   the reference object with which to compare.
-     * @return  {@code true} if this object is the same as the obj
-     *          argument; {@code false} otherwise.
+     * 注意该方法无论何时被覆盖，通常都需要覆盖{@code hashCode}方法，
+     * 以维持对于{@code hashCode}方法的规约，
+     * 该规约规定了相同的对象必须有相同的hash码。
+     * 
+     * @param   obj与之相比较的引用对象。
+     * @return  如当前对象与obj参数相等则返回{@code true}。
+     *          否则返回{@code false}。
      * @see     #hashCode()
      * @see     java.util.HashMap
      */
@@ -150,9 +147,9 @@ public class Object {
     }
 
     /**
-     * Creates and returns a copy of this object.  The precise meaning
-     * of "copy" may depend on the class of the object. The general
-     * intent is that, for any object {@code x}, the expression:
+     * 创建并返回该对象的一个副本.  "副本"的精确定义
+     * 取决于对象的类. 其主要含义
+     * 在于, 对于任何对象 {@code x}, 表达式：
      * <blockquote>
      * <pre>
      * x.clone() != x</pre></blockquote>
@@ -201,12 +198,12 @@ public class Object {
      * whose class is {@code Object} will result in throwing an
      * exception at run time.
      *
-     * @return     a clone of this instance.
-     * @throws  CloneNotSupportedException  if the object's class does not
-     *               support the {@code Cloneable} interface. Subclasses
-     *               that override the {@code clone} method can also
-     *               throw this exception to indicate that an instance cannot
-     *               be cloned.
+     * @return     该实例的一个克隆.
+     * @throws  CloneNotSupportedException  如果该对象的类不支持
+     *               {@code Cloneable}接口，
+     *               覆盖{@code clone} 方法的子类 同样
+     *               会抛出异常以指示对象无法
+     *               被克隆。
      * @see java.lang.Cloneable
      */
     protected native Object clone() throws CloneNotSupportedException;
