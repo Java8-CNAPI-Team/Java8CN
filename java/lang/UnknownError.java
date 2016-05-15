@@ -26,8 +26,7 @@
 package java.lang;
 
 /**
- * Thrown when an unknown but serious exception has occurred in the
- * Java Virtual Machine.
+ * 在未知且严重的异常发生时由JVM抛出。
  *
  * @author unascribed
  * @since   JDK1.0
@@ -37,17 +36,16 @@ class UnknownError extends VirtualMachineError {
     private static final long serialVersionUID = 2524784860676771849L;
 
     /**
-     * Constructs an <code>UnknownError</code> with no detail message.
+     * 构造一个无参（详细消息）的 <code>UnknownError</code>。
      */
     public UnknownError() {
         super();
     }
 
     /**
-     * Constructs an <code>UnknownError</code> with the specified detail
-     * message.
+     * 构造一个带参数（指定详细消息）的 <code>UnknownError</code>。
      *
-     * @param   s   the detail message.
+     * @param   s   详细消息.
      */
     public UnknownError(String s) {
         super(s);

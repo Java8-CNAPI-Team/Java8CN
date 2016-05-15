@@ -26,13 +26,10 @@
 package java.lang;
 
 /**
- * Thrown if an application tries to call a specified method of a
- * class (either static or instance), and that class no longer has a
- * definition of that method.
+ * 在应用程序试图调用类（无论是静态类还是类的实例）中一个未定义的方法时抛出。
  * <p>
- * Normally, this error is caught by the compiler; this error can
- * only occur at run time if the definition of a class has
- * incompatibly changed.
+ * 通常，该错误由编译器捕获； 这个错误
+ * 只发生在运行时，原因是类的新老代码不兼容。
  *
  * @author  unascribed
  * @since   JDK1.0
@@ -42,17 +39,16 @@ class NoSuchMethodError extends IncompatibleClassChangeError {
     private static final long serialVersionUID = -3765521442372831335L;
 
     /**
-     * Constructs a <code>NoSuchMethodError</code> with no detail message.
+     * 构造一个无参（详细消息）的 <code>NoSuchMethodError</code>。
      */
     public NoSuchMethodError() {
         super();
     }
 
     /**
-     * Constructs a <code>NoSuchMethodError</code> with the
-     * specified detail message.
+     * 构造一个带参数（指定详细消息）的 <code>NoSuchMethodError</code>。
      *
-     * @param   s   the detail message.
+     * @param   s   详细消息.
      */
     public NoSuchMethodError(String s) {
         super(s);

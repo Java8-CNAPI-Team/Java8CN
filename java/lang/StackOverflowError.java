@@ -26,8 +26,7 @@
 package java.lang;
 
 /**
- * Thrown when a stack overflow occurs because an application
- * recurses too deeply.
+ * 当程序由于递归过深产生堆栈溢出时抛出。
  *
  * @author unascribed
  * @since   JDK1.0
@@ -37,17 +36,16 @@ class StackOverflowError extends VirtualMachineError {
     private static final long serialVersionUID = 8609175038441759607L;
 
     /**
-     * Constructs a <code>StackOverflowError</code> with no detail message.
+     * 构造一个无参（详细消息）的 <code>StackOverflowError</code>。
      */
     public StackOverflowError() {
         super();
     }
 
     /**
-     * Constructs a <code>StackOverflowError</code> with the specified
-     * detail message.
+     * 构造一个带参数（指定详细消息）的 <code>StackOverflowError</code>。
      *
-     * @param   s   the detail message.
+     * @param   s   详细信息。
      */
     public StackOverflowError(String s) {
         super(s);

@@ -26,7 +26,7 @@
 package java.lang;
 
 /**
- * Thrown if an application tries to create an array with negative size.
+ * 若程序试图创建大小为负的数组则抛出。
  *
  * @author  unascribed
  * @since   JDK1.0
@@ -36,18 +36,18 @@ class NegativeArraySizeException extends RuntimeException {
     private static final long serialVersionUID = -8960118058596991861L;
 
     /**
-     * Constructs a <code>NegativeArraySizeException</code> with no
-     * detail message.
+     * 构造一个无参（详细消息）的 <code>NegativeArraySizeException</code>。
+     * 
      */
     public NegativeArraySizeException() {
         super();
     }
 
     /**
-     * Constructs a <code>NegativeArraySizeException</code> with the
-     * specified detail message.
+     * 构造一个带参数（指定详细消息）的 <code>NegativeArraySizeException</code>。
+     * 
      *
-     * @param   s   the detail message.
+     * @param   s   详细信息.
      */
     public NegativeArraySizeException(String s) {
         super(s);
