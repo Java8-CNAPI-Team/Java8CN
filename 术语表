@@ -9,3 +9,5 @@ bit         位
 type        类型
 class       类
 object      对象
+annotation  注解
+enum        枚举
