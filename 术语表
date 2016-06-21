@@ -1,15 +1,26 @@
 BaseClass     基类
 SubClass      派生类
 implement     实现
+extend        继承
 reflection    反射
+annotation    注解
+enum          枚举
 string        字符串
-char          字符
+charactor     字符
 byte          字节
 bit           位
 type          类型
 class         类
+constructor   构造器
 object        对象
-annotation    注解
-enum          枚举
+field         域
+method        方法
 synchronized  同步的
 asynchronized 异步的
+stream        流
+process       进程
+thread        线程
+stack         堆栈
+queue         队列
+
+
