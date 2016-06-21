@@ -22,5 +22,6 @@ process       进程
 thread        线程
 stack         堆栈
 queue         队列
+generic type  泛型
 
 
