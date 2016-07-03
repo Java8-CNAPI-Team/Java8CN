@@ -29,158 +29,113 @@ import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The {@link ProcessBuilder#start()} and
- * {@link Runtime#exec(String[],String[],File) Runtime.exec}
- * methods create a native process and return an instance of a
- * subclass of {@code Process} that can be used to control the process
- * and obtain information about it.  The class {@code Process}
- * provides methods for performing input from the process, performing
- * output to the process, waiting for the process to complete,
- * checking the exit status of the process, and destroying (killing)
- * the process.
+ * 
+ * {@link ProcessBuilder#start()}和
+ * {@link Runtime#exec(String[],String[],File) Runtime.exec}方法
+ * 创建一个本地进程并返回{@code Process}的一个实例，
+ * （该实例）用于控制进程并获取其信息。
+ * {@code Process}类提供的方法用于获取进程的输入流，进程的输出流，
+ * 等待进程执行完毕，检查进程的执行状态，以及销毁（杀死）进程。
  *
- * <p>The methods that create processes may not work well for special
- * processes on certain native platforms, such as native windowing
- * processes, daemon processes, Win16/DOS processes on Microsoft
- * Windows, or shell scripts.
+ * <p>在固定的本地平台上，创建进程的方法对特定进程的支持可能不好，比如本地窗口进程，守护进程，
+ * 微软Windows中的Win16/DOS进程，或者是shell脚本。
  *
- * <p>By default, the created subprocess does not have its own terminal
- * or console.  All its standard I/O (i.e. stdin, stdout, stderr)
- * operations will be redirected to the parent process, where they can
- * be accessed via the streams obtained using the methods
+ * <p>默认的，创建的子进程没有自己的终端或控制台。其所有的标准I/O（比如stdin, stdout, stderr）
+ * 操作将会重定向到其父进程中，父进程中可以通过使用方法
  * {@link #getOutputStream()},
- * {@link #getInputStream()}, and
- * {@link #getErrorStream()}.
- * The parent process uses these streams to feed input to and get output
- * from the subprocess.  Because some native platforms only provide
- * limited buffer size for standard input and output streams, failure
- * to promptly write the input stream or read the output stream of
- * the subprocess may cause the subprocess to block, or even deadlock.
+ * {@link #getInputStream()}, 和
+ * {@link #getErrorStream()}来获取的流来访问。
+ * 
+ * 父进程依靠这些流来从子进程获取输入和输出。
+ * 由于一些本地平台只为输入输出流提供有限的缓存大小，
+ * 迅速向子进程写输入流或读输出流的错误可能会引起子进程阻塞，甚至是死锁。
  *
- * <p>Where desired, <a href="ProcessBuilder.html#redirect-input">
- * subprocess I/O can also be redirected</a>
- * using methods of the {@link ProcessBuilder} class.
+ * <p>同时，<a href="ProcessBuilder.html#redirect-input">
+ * 子进程I/O也可以使用</a>{@link ProcessBuilder}类的方法来重定向。
  *
- * <p>The subprocess is not killed when there are no more references to
- * the {@code Process} object, but rather the subprocess
- * continues executing asynchronously.
+ * <p>当不具有{@code Process}对象的引用时，
+ * 子进程不会被杀死，相反子进程会继续异步执行。
  *
- * <p>There is no requirement that a process represented by a {@code
- * Process} object execute asynchronously or concurrently with respect
- * to the Java process that owns the {@code Process} object.
+ * <p>进程没有必要异步运行。
  *
- * <p>As of 1.5, {@link ProcessBuilder#start()} is the preferred way
- * to create a {@code Process}.
+ * 
+ * <p>1.5版本中，{@link ProcessBuilder#start()}是创建{@code Process}的首选方式。
  *
  * @since   JDK1.0
  */
 public abstract class Process {
     /**
-     * Returns the output stream connected to the normal input of the
-     * subprocess.  Output to the stream is piped into the standard
-     * input of the process represented by this {@code Process} object.
+     * 获取子进程的输出流，该子进程连接标准输入。通过管道从进程的标准输入获取标准输出数据。
      *
-     * <p>If the standard input of the subprocess has been redirected using
-     * {@link ProcessBuilder#redirectInput(Redirect)
-     * ProcessBuilder.redirectInput}
-     * then this method will return a
-     * <a href="ProcessBuilder.html#redirect-input">null output stream</a>.
+     * <p>如果子进程的标准输入被使用{@link ProcessBuilder#redirectInput(Redirect)
+     * ProcessBuilder.redirectInput}重定向过，
+     * 那么该方法将返回<a href="ProcessBuilder.html#redirect-input">null输出流</a>。
      *
-     * <p>Implementation note: It is a good idea for the returned
-     * output stream to be buffered.
+     * <p>实现注意事项：将被返回的输出流进行缓存并不是好主意。
      *
-     * @return the output stream connected to the normal input of the
-     *         subprocess
+     * @return 连接到子进程标准输入的输出流。
      */
     public abstract OutputStream getOutputStream();
 
     /**
-     * Returns the input stream connected to the normal output of the
-     * subprocess.  The stream obtains data piped from the standard
-     * output of the process represented by this {@code Process} object.
+     * 返回连接到标准输出的输入流。通过管道从进程的标准输出获取标准输入数据。
+     * 
+     * <p>如果子进程的标准输出被使用{@link ProcessBuilder#redirectOutput(Redirect)
+     * ProcessBuilder.redirectOutput}重定向过，
+     * 那么该方法将返回<a href="ProcessBuilder.html#redirect-output">null输入流</a>。
      *
-     * <p>If the standard output of the subprocess has been redirected using
-     * {@link ProcessBuilder#redirectOutput(Redirect)
-     * ProcessBuilder.redirectOutput}
-     * then this method will return a
-     * <a href="ProcessBuilder.html#redirect-output">null input stream</a>.
      *
-     * <p>Otherwise, if the standard error of the subprocess has been
-     * redirected using
-     * {@link ProcessBuilder#redirectErrorStream(boolean)
-     * ProcessBuilder.redirectErrorStream}
-     * then the input stream returned by this method will receive the
-     * merged standard output and the standard error of the subprocess.
+     * <p>否则，如果子进程的标准错误被使用{@link ProcessBuilder#redirectErrorStream(boolean)
+     * ProcessBuilder.redirectErrorStream}重定向，
+     * 那么该方法返回的输入流将会接收到子进程合并后的标准输出及标准错误。
      *
-     * <p>Implementation note: It is a good idea for the returned
-     * input stream to be buffered.
+     * <p>实现注意事项：将返回的输入流进行缓存是一个好主意。 
      *
-     * @return the input stream connected to the normal output of the
-     *         subprocess
+     * @return 连接到子进程正常输出的输入流。
      */
     public abstract InputStream getInputStream();
 
     /**
-     * Returns the input stream connected to the error output of the
-     * subprocess.  The stream obtains data piped from the error output
-     * of the process represented by this {@code Process} object.
-     *
-     * <p>If the standard error of the subprocess has been redirected using
-     * {@link ProcessBuilder#redirectError(Redirect)
-     * ProcessBuilder.redirectError} or
+     * 返回子进程中连接到错误输出的输入流。通过管道从进程的错误输出获取数据。
+     * <p>如果子进程的标准错误被使用{@link ProcessBuilder#redirectError(Redirect)
+     * ProcessBuilder.redirectError}或者
      * {@link ProcessBuilder#redirectErrorStream(boolean)
-     * ProcessBuilder.redirectErrorStream}
-     * then this method will return a
-     * <a href="ProcessBuilder.html#redirect-output">null input stream</a>.
+     * ProcessBuilder.redirectErrorStream}进行了重定向，
+     * 那么该方法将会返回一个
      *
-     * <p>Implementation note: It is a good idea for the returned
-     * input stream to be buffered.
+     * <p>实现注意事项：将返回的输入流进行缓存是一个好主意。 
      *
-     * @return the input stream connected to the error output of
-     *         the subprocess
+     * @return 子进程中，连接到错误输出的输入流
      */
     public abstract InputStream getErrorStream();
 
     /**
-     * Causes the current thread to wait, if necessary, until the
-     * process represented by this {@code Process} object has
-     * terminated.  This method returns immediately if the subprocess
-     * has already terminated.  If the subprocess has not yet
-     * terminated, the calling thread will be blocked until the
-     * subprocess exits.
+     * 使得当前的线程挂起等待，如有需要，直到{@code Process}对象代表的子进程终止。
+     * 如果{@code Process}对象终止，该方法立即返回。
+     * 如果子进程未终止，调用线程将会被阻塞，直到子进程退出。
      *
-     * @return the exit value of the subprocess represented by this
-     *         {@code Process} object.  By convention, the value
-     *         {@code 0} indicates normal termination.
-     * @throws InterruptedException if the current thread is
-     *         {@linkplain Thread#interrupt() interrupted} by another
-     *         thread while it is waiting, then the wait is ended and
-     *         an {@link InterruptedException} is thrown.
+     * @return {@code Process}对象表示的子进程的退出值。
+     * 			按照惯例，{@code 0}值表示正常终止。
+     * @throws InterruptedException 如果当前线程在等待的时候
+     * 		          被其他线程打断，那么等待终止，并且抛出{@link InterruptedException}。
      */
     public abstract int waitFor() throws InterruptedException;
 
     /**
-     * Causes the current thread to wait, if necessary, until the
-     * subprocess represented by this {@code Process} object has
-     * terminated, or the specified waiting time elapses.
+     * 使得当前线程挂起等待，如有需要，直到{@code Process}对象代表的子进程终止，
+     * 或者超过了指定的等待时间。
      *
-     * <p>If the subprocess has already terminated then this method returns
-     * immediately with the value {@code true}.  If the process has not
-     * terminated and the timeout value is less than, or equal to, zero, then
-     * this method returns immediately with the value {@code false}.
+     * <p>如果子进程已终止，那么该方法立刻返回{@code true}值。
+     * 如果子进程没有终止且timeout值小于或等于设定值，0值，那么该方法立即返回{@code false}值。
+     * <p>该方法的默认实现通过检测{@code exitValue}来核实进程是否终止。强烈建议在具体编码的时候
+     * 使用一个更有效的实现进行重写。
+     * 
      *
-     * <p>The default implementation of this methods polls the {@code exitValue}
-     * to check if the process has terminated. Concrete implementations of this
-     * class are strongly encouraged to override this method with a more
-     * efficient implementation.
-     *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if the subprocess has exited and {@code false} if
-     *         the waiting time elapsed before the subprocess has exited.
-     * @throws InterruptedException if the current thread is interrupted
-     *         while waiting.
-     * @throws NullPointerException if unit is null
+     * @param timeout 最大的等待时间
+     * @param {@code timeout}参数的时间单位
+     * @return 如果子进程已退出返回{@code true}，如果等待时间在子进程退出前超时则返回{@code false}。
+     * @throws InterruptedException 如果在等待的时候当前线程被打断。
+     * @throws NullPointerException 如果单位是null
      * @since 1.8
      */
     public boolean waitFor(long timeout, TimeUnit unit)
@@ -204,41 +159,31 @@ public abstract class Process {
     }
 
     /**
-     * Returns the exit value for the subprocess.
+     * 返回子进程的退出值
      *
-     * @return the exit value of the subprocess represented by this
-     *         {@code Process} object.  By convention, the value
-     *         {@code 0} indicates normal termination.
-     * @throws IllegalThreadStateException if the subprocess represented
-     *         by this {@code Process} object has not yet terminated
+     * @return 该进程的退出值。按照惯例，{@code 0}值代表正常退出。
+     * @throws IllegalThreadStateException 如果子进程还没有终止
      */
     public abstract int exitValue();
 
     /**
-     * Kills the subprocess. Whether the subprocess represented by this
-     * {@code Process} object is forcibly terminated or not is
-     * implementation dependent.
+     * 杀死子进程。无论子进程被强制终止或者具有实现依赖。
      */
     public abstract void destroy();
 
     /**
-     * Kills the subprocess. The subprocess represented by this
-     * {@code Process} object is forcibly terminated.
+     * 杀死子进程。该{@code Process}对象代表的子进程被强制终止。
      *
-     * <p>The default implementation of this method invokes {@link #destroy}
-     * and so may not forcibly terminate the process. Concrete implementations
-     * of this class are strongly encouraged to override this method with a
-     * compliant implementation.  Invoking this method on {@code Process}
-     * objects returned by {@link ProcessBuilder#start} and
-     * {@link Runtime#exec} will forcibly terminate the process.
+     * <p>该方法的默认实现调用了{@link #destroy}方法，故可能无法强制终止当前进程。
+     * 具体的实现措施中，强烈建议使用有效的实现来重写该方法。
+     * 调用该方法来强制终止进程（由 {@link ProcessBuilder#start}和
+     * {@link Runtime#exec}获得的对象）。
      *
-     * <p>Note: The subprocess may not terminate immediately.
-     * i.e. {@code isAlive()} may return true for a brief period
-     * after {@code destroyForcibly()} is called. This method
-     * may be chained to {@code waitFor()} if needed.
+     * <p>注意：子进程不会立刻终止。
+     * 比如：{@code isAlive()}可能在{@code destroyForcibly()}
+     * 调用后的短时间内返回true。如有需要，该方法应和{@code waitFor()}方法结合使用。
      *
-     * @return the {@code Process} object representing the
-     *         subprocess to be forcibly destroyed.
+     * @return 被强制终止的 {@code Process}对象代表的子进程。
      * @since 1.8
      */
     public Process destroyForcibly() {
@@ -247,11 +192,9 @@ public abstract class Process {
     }
 
     /**
-     * Tests whether the subprocess represented by this {@code Process} is
-     * alive.
+     * 测试该{@code Process}对象代表的子进程是否存活。
      *
-     * @return {@code true} if the subprocess represented by this
-     *         {@code Process} object has not yet terminated.
+     * @return {@code true} 如果该子进程未被终止。
      * @since 1.8
      */
     public boolean isAlive() {
