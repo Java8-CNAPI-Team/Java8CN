@@ -42,8 +42,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/* This class is for the exclusive use of ProcessBuilder.start() to
- * create new processes.
+/* 
+ * 该类专用于ProcessBuilder.start()创建新的进程。
  *
  * @author Martin Buchholz
  * @since   1.5
@@ -54,11 +54,9 @@ final class ProcessImpl extends Process {
         = sun.misc.SharedSecrets.getJavaIOFileDescriptorAccess();
 
     /**
-     * Open a file for writing. If {@code append} is {@code true} then the file
-     * is opened for atomic append directly and a FileOutputStream constructed
-     * with the resulting handle. This is because a FileOutputStream created
-     * to append to a file does not open the file in a manner that guarantees
-     * that writes by the child process will be atomic.
+     * 打开一个文件用于写。如果{@code append}为 {@code true}，
+     * 则文件被打开直接用于原子扩展，并且会构造一个作为结果的FileOutputStream。
+     * 这是由于FileOutputStream被用来扩充文件时不打开文件，以这样的方式来保证子进程的写操作是原子的。
      */
     private static FileOutputStream newFileOutputStream(File f, boolean append)
         throws IOException
@@ -500,25 +498,20 @@ final class ProcessImpl extends Process {
     private static native boolean isProcessAlive(long handle);
 
     /**
-     * Create a process using the win32 function CreateProcess.
-     * The method is synchronized due to MS kb315939 problem.
-     * All native handles should restore the inherit flag at the end of call.
+     * 使用win32函数CreateProcess来创建一个新进程。
+     * MS kb315939的Windows bug决定了它只能是同步方法。
+     * 所有的本地句柄在调用的结尾应恢复继承标志。
      *
-     * @param cmdstr the Windows command line
-     * @param envblock NUL-separated, double-NUL-terminated list of
-     *        environment strings in VAR=VALUE form
-     * @param dir the working directory of the process, or null if
-     *        inheriting the current directory from the parent process
-     * @param stdHandles array of windows HANDLEs.  Indexes 0, 1, and
-     *        2 correspond to standard input, standard output and
-     *        standard error, respectively.  On input, a value of -1
-     *        means to create a pipe to connect child and parent
-     *        processes.  On output, a value which is not -1 is the
-     *        parent pipe handle corresponding to the pipe which has
-     *        been created.  An element of this array is -1 on input
-     *        if and only if it is <em>not</em> -1 on output.
-     * @param redirectErrorStream redirectErrorStream attribute
-     * @return the native subprocess HANDLE returned by CreateProcess
+     * @param cmdstr Windows命令行
+     * @param envblock 以单NUL（/0）分隔，以双NULL（/0）结束的型如VAR=VALUE的一列环境变量字符串。
+     * @param dir 进程的额工作目录，如果从父进程继承自当前目录则为null
+     *        
+     * @param stdHandles windows的句柄数组。 索引0,1,2分别对应标准输入，标准输出
+     * 		      以及标准错误。对于输入，值-1表示创建一个管道，连接子进程和父进程。
+     * 		      对于输出，值不为-1代表对应已创建的管道的父管道句柄。
+     * 		      当且仅当output不为-1,input才为-1。
+     * @param redirectErrorStream redirectErrorStream 属性
+     * @return 由CreateProcess函数返回的本地子进程句柄
      */
     private static synchronized native long create(String cmdstr,
                                       String envblock,
@@ -528,11 +521,10 @@ final class ProcessImpl extends Process {
         throws IOException;
 
     /**
-     * Opens a file for atomic append. The file is created if it doesn't
-     * already exist.
+     * 打开一个文件用于原子扩展。如果该文件不存在，则创建之。
      *
-     * @param file the file to open or create
-     * @return the native HANDLE
+     * @param file 将要打开或创建的文件（此处JDK代码里是String类型参数path，可能是注释没有来得及修改）
+     * @return native的HANDLE
      */
     private static native long openForAtomicAppend(String path)
         throws IOException;
