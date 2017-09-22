@@ -26,8 +26,10 @@
 package java.lang;
 
 /**
- * 当“校验器”检测到一个类文件格式正确，但包含一些内部一致性问题或安全问题时抛出。
- * 
+ * Thrown when the "verifier" detects that a class file,
+ * though well formed, contains some sort of internal inconsistency
+ * or security problem.
+ *
  * @author  unascribed
  * @since   JDK1.0
  */
@@ -36,16 +38,16 @@ class VerifyError extends LinkageError {
     private static final long serialVersionUID = 7001962396098498785L;
 
     /**
-     * 构造一个无参（详细消息）的 <code>VerifyError</code>。
+     * Constructs an <code>VerifyError</code> with no detail message.
      */
     public VerifyError() {
         super();
     }
 
     /**
-     * 构造一个带参数（指定详细消息）的 <code>VerifyError</code>。
+     * Constructs an <code>VerifyError</code> with the specified detail message.
      *
-     * @param   s   详细信息。
+     * @param   s   the detail message.
      */
     public VerifyError(String s) {
         super(s);

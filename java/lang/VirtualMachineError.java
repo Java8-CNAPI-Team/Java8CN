@@ -26,7 +26,9 @@
 package java.lang;
 
 /**
- * 抛出该错误，以指示JVM已损坏或者继续运行所需的资源已耗尽。
+ * Thrown to indicate that the Java Virtual Machine is broken or has
+ * run out of resources necessary for it to continue operating.
+ *
  *
  * @author  Frank Yellin
  * @since   JDK1.0
@@ -35,28 +37,34 @@ abstract public class VirtualMachineError extends Error {
     private static final long serialVersionUID = 4161983926571568670L;
 
     /**
-     * 构造一个没有详细说明信息的<code>VirtualMachineError</code>。
+     * Constructs a <code>VirtualMachineError</code> with no detail message.
      */
     public VirtualMachineError() {
         super();
     }
 
     /**
-     * 构造一个具有详细说明信息的<code>VirtualMachineError</code>。
+     * Constructs a <code>VirtualMachineError</code> with the specified
+     * detail message.
      *
-     * @param   message   详细信息。
+     * @param   message   the detail message.
      */
     public VirtualMachineError(String message) {
         super(message);
     }
 
     /**
-     * 构造一个具有详细说明信息和起因的<code>VirtualMachineError</code>。
-     * <p>注意与{@code cause}关联的详细信息不会自动包含在该错误的详细信息中。
+     * Constructs a {@code VirtualMachineError} with the specified
+     * detail message and cause.  <p>Note that the detail message
+     * associated with {@code cause} is <i>not</i> automatically
+     * incorporated in this error's detail message.
      *
-     * @param  message 纤细信息（保存后用于{@link #getMessage()}方法取回使用）
-     * @param  cause 起因（保存后用于{@link #getCause()}方法取回使用）。
-     * 		         （允许{@code null}值，表示该起因不存在或未知 ）。
+     * @param  message the detail message (which is saved for later retrieval
+     *         by the {@link #getMessage()} method).
+     * @param  cause the cause (which is saved for later retrieval by the
+     *         {@link #getCause()} method).  (A {@code null} value is
+     *         permitted, and indicates that the cause is nonexistent or
+     *         unknown.)
      * @since  1.8
      */
     public VirtualMachineError(String message, Throwable cause) {
@@ -64,12 +72,15 @@ abstract public class VirtualMachineError extends Error {
     }
 
     /**
-     * 构造一个具有详细起因和{@code (cause==null ? null : cause.toString())}
-     * 详细信息的{@code VirtualMachineError}。
-     * （通常包含类和{@code cause}的详细信息）。
+     * Constructs an a {@code VirtualMachineError} with the specified
+     * cause and a detail message of {@code (cause==null ? null :
+     * cause.toString())} (which typically contains the class and
+     * detail message of {@code cause}).
      *
-     * @param  cause 起因 （保存后用于{@link #getCause()}方法取回使用）。
-     * 		         （允许{@code null}值，表示该起因不存在或未知 ）。
+     * @param  cause the cause (which is saved for later retrieval by the
+     *         {@link #getCause()} method).  (A {@code null} value is
+     *         permitted, and indicates that the cause is nonexistent or
+     *         unknown.)
      * @since  1.8
      */
     public VirtualMachineError(Throwable cause) {
