@@ -23,5 +23,8 @@ thread        线程
 stack         堆栈
 queue         队列
 generic type  泛型
+indicate      表明、指示、标识
+Collection    容器
+Set           集合
 
 

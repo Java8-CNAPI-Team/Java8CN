@@ -190,7 +190,173 @@ package java.util;
  * @since  1.6
  * @param <E> the type of elements held in this collection
  */
+
+/**
+ * 一个线性数据容器类，支持首尾两端的元素插入和删除。
+ * 名称 <i>deque</i>【译为：双端队列】是 "double ended queue"的缩写，
+ * 通常拼作："deck"。 大多数{@code Deque}实现对它们包含的元素数量没有限制，
+ * 但是该接口同时支持有容量限制和不限制大小的deque。
+ *
+ * <p>本接口定义了方法去访问deque双端的元素。
+ * 这些方法用以插入，删除和检查元素
+ * 每一个方法存在两种格式：
+ * 一种运行失败后抛出异常，
+ * 另一种返回特定的值，(要么 {@code null} 要么 {@code false}，视运行而定)。
+ * 后一种格式insert操作专门设计用于容量限制的的{@code Deque}实现；
+ * 在多数实现中，插入操作不能失败。
+ *
+ * <p>上述的12种方法总结在了下表之中：
+ *
+ * <table BORDER CELLPADDING=3 CELLSPACING=1>
+ * <caption>Summary of Deque methods</caption>
+ *  <tr>
+ *    <td></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>First Element (Head)</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>Last Element (Tail)</b></td>
+ *  </tr>
+ *  <tr>
+ *    <td></td>
+ *    <td ALIGN=CENTER><em>Throws exception</em></td>
+ *    <td ALIGN=CENTER><em>Special value</em></td>
+ *    <td ALIGN=CENTER><em>Throws exception</em></td>
+ *    <td ALIGN=CENTER><em>Special value</em></td>
+ *  </tr>
+ *  <tr>
+ *    <td><b>Insert</b></td>
+ *    <td>{@link Deque#addFirst addFirst(e)}</td>
+ *    <td>{@link Deque#offerFirst offerFirst(e)}</td>
+ *    <td>{@link Deque#addLast addLast(e)}</td>
+ *    <td>{@link Deque#offerLast offerLast(e)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td><b>Remove</b></td>
+ *    <td>{@link Deque#removeFirst removeFirst()}</td>
+ *    <td>{@link Deque#pollFirst pollFirst()}</td>
+ *    <td>{@link Deque#removeLast removeLast()}</td>
+ *    <td>{@link Deque#pollLast pollLast()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td><b>Examine</b></td>
+ *    <td>{@link Deque#getFirst getFirst()}</td>
+ *    <td>{@link Deque#peekFirst peekFirst()}</td>
+ *    <td>{@link Deque#getLast getLast()}</td>
+ *    <td>{@link Deque#peekLast peekLast()}</td>
+ *  </tr>
+ * </table>
+ *
+ * <p>本接口继承了{@link Queue}接口。当deque用作FIFO的队列。
+ * deque末端加入元素而前端删除元素。
+ * 继承自{@code Queue}接口的方法正好相当于{@code Deque}在下列表中列出的方法。
+ *
+ * <table BORDER CELLPADDING=3 CELLSPACING=1>
+ * <caption>Comparison of Queue and Deque methods</caption>
+ *  <tr>
+ *    <td ALIGN=CENTER> <b>{@code Queue} Method</b></td>
+ *    <td ALIGN=CENTER> <b>Equivalent {@code Deque} Method</b></td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link java.util.Queue#add add(e)}</td>
+ *    <td>{@link #addLast addLast(e)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link java.util.Queue#offer offer(e)}</td>
+ *    <td>{@link #offerLast offerLast(e)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link java.util.Queue#remove remove()}</td>
+ *    <td>{@link #removeFirst removeFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link java.util.Queue#poll poll()}</td>
+ *    <td>{@link #pollFirst pollFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link java.util.Queue#element element()}</td>
+ *    <td>{@link #getFirst getFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link java.util.Queue#peek peek()}</td>
+ *    <td>{@link #peek peekFirst()}</td>
+ *  </tr>
+ * </table>
+ *
+ * <p>Deques同样可以用作LIFO的堆栈。
+ * 该接口优先于旧的{@link Stack}使用。
+ * 当deque用作stack使用时，元素从deque的开头压入和弹出。
+ * Stack方法账号相当于下表中列出的{@code Deque} 方法：
+ *
+ * <table BORDER CELLPADDING=3 CELLSPACING=1>
+ * <caption>Comparison of Stack and Deque methods</caption>
+ *  <tr>
+ *    <td ALIGN=CENTER> <b>Stack Method</b></td>
+ *    <td ALIGN=CENTER> <b>Equivalent {@code Deque} Method</b></td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link #push push(e)}</td>
+ *    <td>{@link #addFirst addFirst(e)}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link #pop pop()}</td>
+ *    <td>{@link #removeFirst removeFirst()}</td>
+ *  </tr>
+ *  <tr>
+ *    <td>{@link #peek peek()}</td>
+ *    <td>{@link #peekFirst peekFirst()}</td>
+ *  </tr>
+ * </table>
+ *
+ * <p>注意{@link #peek peek}方法在deque用作queue或队列时作用相同。
+ * Note that the {@link #peek peek} method works equally well when
+ * a deque is used as a queue or a stack; in either case, elements are
+ * drawn from the beginning of the deque.
+ *
+ * <p>This interface provides two methods to remove interior
+ * elements, {@link #removeFirstOccurrence removeFirstOccurrence} and
+ * {@link #removeLastOccurrence removeLastOccurrence}.
+ *
+ * <p>Unlike the {@link List} interface, this interface does not
+ * provide support for indexed access to elements.
+ *
+ * <p>While {@code Deque} implementations are not strictly required
+ * to prohibit the insertion of null elements, they are strongly
+ * encouraged to do so.  Users of any {@code Deque} implementations
+ * that do allow null elements are strongly encouraged <i>not</i> to
+ * take advantage of the ability to insert nulls.  This is so because
+ * {@code null} is used as a special return value by various methods
+ * to indicated that the deque is empty.
+ *
+ * <p>{@code Deque} implementations generally do not define
+ * element-based versions of the {@code equals} and {@code hashCode}
+ * methods, but instead inherit the identity-based versions from class
+ * {@code Object}.
+ *
+ * <p>This interface is a member of the <a
+ * href="{@docRoot}/../technotes/guides/collections/index.html"> Java Collections
+ * Framework</a>.
+ *
+ * @author Doug Lea
+ * @author Josh Bloch
+ * @since  1.6
+ * @param <E> the type of elements held in this collection
+ */
 public interface Deque<E> extends Queue<E> {
+    /**
+     * Inserts the specified element at the front of this deque if it is
+     * possible to do so immediately without violating capacity restrictions,
+     * throwing an {@code IllegalStateException} if no space is currently
+     * available.  When using a capacity-restricted deque, it is generally
+     * preferable to use method {@link #offerFirst}.
+     *
+     * @param e the element to add
+     * @throws IllegalStateException if the element cannot be added at this
+     *         time due to capacity restrictions
+     * @throws ClassCastException if the class of the specified element
+     *         prevents it from being added to this deque
+     * @throws NullPointerException if the specified element is null and this
+     *         deque does not permit null elements
+     * @throws IllegalArgumentException if some property of the specified
+     *         element prevents it from being added to this deque
+     */
     /**
      * Inserts the specified element at the front of this deque if it is
      * possible to do so immediately without violating capacity restrictions,

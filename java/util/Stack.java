@@ -45,10 +45,29 @@ package java.util;
  * @author  Jonathan Payne
  * @since   JDK1.0
  */
+/**
+ * <code>Stack</code> 类表示后进先出的对象堆栈结构。
+ * 继承了<tt>Vector</tt>类，同时实现了五个操作以创建
+ * 堆栈的数据结构。它们包括：
+ * 普通的<tt>push</tt> and <tt>pop</tt> 操作, <tt>peek</tt> 以查找栈顶元素，
+ * <tt>empty</tt>以判断堆栈是否为空，以及<tt>search</tt>以查找item离栈顶有多远。
+ * <p>
+ * 当stack结构建立的时候，默认是不包含item的。
+ *
+ * <p>更完善的后进先出堆栈结构是{@link Deque} 接口以及它的实现类，
+ * 应该优先使用它们而不是本类。
+ * 比如：
+ * <pre>   {@code
+ *   Deque<Integer> stack = new ArrayDeque<Integer>();}</pre>
+ *
+ * @author  Jonathan Payne
+ * @since   JDK1.0
+ */
 public
 class Stack<E> extends Vector<E> {
     /**
      * Creates an empty Stack.
+     * 新建一个空Stack
      */
     public Stack() {
     }
@@ -58,9 +77,11 @@ class Stack<E> extends Vector<E> {
      * the same effect as:
      * <blockquote><pre>
      * addElement(item)</pre></blockquote>
-     *
-     * @param   item   the item to be pushed onto this stack.
-     * @return  the <code>item</code> argument.
+     * 将item放在satck顶部。
+     * 和<blockquote><pre>addElement(item)</pre></blockquote>
+     * 的作用相同
+     * @param   item   the item to be pushed onto this stack.放入stack顶部的item
+     * @return  the <code>item</code> 参数.
      * @see     java.util.Vector#addElement
      */
     public E push(E item) {
@@ -76,6 +97,11 @@ class Stack<E> extends Vector<E> {
      * @return  The object at the top of this stack (the last item
      *          of the <tt>Vector</tt> object).
      * @throws  EmptyStackException  if this stack is empty.
+     *
+     * 删除在stack顶部的对象并返回该对象的值
+     *
+     * @return  stack顶部的对象 (<tt>Vector</tt> 对象的最后一项)
+     * @throws  EmptyStackException  如果该stack为空.
      */
     public synchronized E pop() {
         E       obj;
@@ -89,11 +115,11 @@ class Stack<E> extends Vector<E> {
 
     /**
      * Looks at the object at the top of this stack without removing it
-     * from the stack.
+     * from the stack. 找出但不删除该stack顶部的对象
      *
      * @return  the object at the top of this stack (the last item
-     *          of the <tt>Vector</tt> object).
-     * @throws  EmptyStackException  if this stack is empty.
+     *          of the <tt>Vector</tt> object).该stack顶部的对象（即<tt>Vector</tt>对象的最后一项）
+     * @throws  EmptyStackException  if this stack is empty.EmptyStackException  如果该stack为空
      */
     public synchronized E peek() {
         int     len = size();
@@ -108,6 +134,10 @@ class Stack<E> extends Vector<E> {
      *
      * @return  <code>true</code> if and only if this stack contains
      *          no items; <code>false</code> otherwise.
+     *
+     * 测试该stack是否为空
+     *
+     * @return  如果该stack包含Items则返回<code>true</code> ; 否则<code>false</code>.
      */
     public boolean empty() {
         return size() == 0;
@@ -126,6 +156,16 @@ class Stack<E> extends Vector<E> {
      * @return  the 1-based position from the top of the stack where
      *          the object is located; the return value <code>-1</code>
      *          indicates that the object is not on the stack.
+     *
+     * 返回该stack中对象所处的第一个位置。
+     * 如果对象<tt>o</tt>是stack中的一员，该方法返回从栈顶到最近的命中对象的步长。
+     * 栈顶的item步长为<tt>1</tt>。
+     * 使用<tt>equals</tt>方法来比较<tt>o</tt>和stack中的items。
+     *
+     * @param   o   期望比较的对象
+     * @return  从栈顶到该对象的第一次顺位位置；
+     *           <code>-1</code>
+     *          表示对象未在栈中.
      */
     public synchronized int search(Object o) {
         int i = lastIndexOf(o);
